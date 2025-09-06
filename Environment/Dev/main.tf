@@ -1,24 +1,30 @@
+
 module "rg" {
   source    = "../../Modules/azurerm_rg"
-  rg_name   = "rg-monolithic-app-dev"
-  location  = "East US"
-  
+  for_each  = var.resource_groups
+  rg_name   = each.value.rg_name
+  location  = each.value.location
 }
+
 
 module "vnet" {
   source                = "../../Modules/azurerm_vnet"
-  vnet_name             = "vnet-dev"
-  address_space         = ["10.0.0.0/16"]
-  location              = module.rg.location
-  resource_group_name   = module.rg.rg_name
+  for_each              = var.virtual_networks
+  vnet_name             = each.value.vnet_name
+  address_space         = each.value.address_space
+  location              = each.value.location
+  resource_group_name   = each.value.resource_group_name
   depends_on            = [module.rg]
 }
 
+
+
 module "subnet" {
   source                = "../../Modules/azurerm_subnet"
-  subnet_name           = "subnet-dev"
-  resource_group_name   = module.rg.rg_name
-  virtual_network_name  = module.vnet.vnet_name
-  address_prefixes      = ["10.0.1.0/24"]
+  for_each              = var.subnets
+  subnet_name           = each.value.subnet_name
+  resource_group_name   = each.value.resource_group_name
+  virtual_network_name  = each.value.virtual_network_name
+  address_prefixes      = each.value.address_prefixes
   depends_on            = [module.vnet]
 }
