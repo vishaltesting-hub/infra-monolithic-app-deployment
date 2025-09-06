@@ -1,1 +1,1 @@
-# infra-deployment-app
+# infra-monolithic-app-deployment
