@@ -9,14 +9,23 @@ permissions:
   contents: read
   
 jobs:
-  my_job:
-    name: staging
+  CI:
+    name: staging-Terraform-Init
     runs-on: github-runner
     steps:
       - name: Checkout
         uses: actions/checkout@v5.0.0
-    
 
-    
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
+        with:
+          client-id: a9eefd66-0b6d-46c2-b618-634e3cedc811
+          tenant-id: a1b0d54a-a325-4077-b214-39ca773f6f89
+          subscription-id: e59b3be3-2cd8-493e-a182-a6b8da13eccc
+
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: Environment/Dev
 
     
