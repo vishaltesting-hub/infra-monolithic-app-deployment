@@ -1,0 +1,22 @@
+name: infra-deployment-mono-app
+
+on: workflow_dispatch
+  # push:
+  #   branches:
+  #   - main
+permissions:
+  id-token: write
+  contents: read
+  
+jobs:
+  my_job:
+    name: staging
+    runs-on: github-runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+    
+
+    
+
+    
